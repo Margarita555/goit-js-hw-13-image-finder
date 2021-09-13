@@ -6,9 +6,7 @@
   "homepage": "https://Margarita555.github.io/goit-js-hw-13-image-finder",
   "scripts": {
     "dev": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-image-finder/",
-    "deploy": "parcel gh-pages -d dist",
-    "predeploy": "npm run build"
+    "build": "parcel build src/*.html --public-url /goit-js-hw-image-finder/"
   },
   "repository": {
     "type": "git",
