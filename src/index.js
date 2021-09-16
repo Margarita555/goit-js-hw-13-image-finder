@@ -2,6 +2,7 @@ import NewsApiService from "./js/apiService";
 import imageCardsTemplate from "./templates/image-card.hbs";
 
 
+
 const searchForm = document.querySelector('.search-form');
 const imagesContainer = document.querySelector('.gallery');
 const searchBtn = document.querySelector('.search-btn');
