@@ -24,19 +24,23 @@
         autocomplete="off"
         placeholder="Search images..."
       />
-      <!-- <button class="btn btn-primary search-btn" type="submit" disabled>Load
-        <span class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
-        Loading...
-    </button> -->
-      <button class="search-btn btn" type="submit"><span class="load">Load</span>
+    
+      <!-- <button class="search-btn btn" type="submit"><span class="load">Load</span>
         <span class="spinner visually-hidden">
           <span class="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span>Loading...</span>
+    </button> -->
+    <button class="search-btn btn" type="submit"><span class="load">Load</span>
+        <span class="spinner-border spinner-border-sm spinner visually-hidden" role="status" aria-hidden="true"></span>
     </button>
     </form>
-    <ul class="gallery">
+
+    <ul class="gallery container">
       <!-- Список <li> с карточками изображений -->
     </ul>
-    <button class="load-more-btn btn" type="button">Load more</button>
+  
+    <!-- <button class="load-more-btn btn" type="button">Load more</button> -->
+
     <script src="index.js"></script>
+    <!-- <script src="../node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js"></script> -->
   </body>
 </html>

@@ -109,3 +109,7 @@ body {
   max-width: 80%;
   max-height: 70%;
 }
+
+.is-hidden {
+  display: none;
+}
