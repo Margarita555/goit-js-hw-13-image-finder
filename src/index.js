@@ -3,46 +3,39 @@ const { searchForm, imagesContainer, searchBtn, loadMoreBtn, spinner, loadSpan }
 import NewsApiService from "./js/apiService";
 import imageCardsTemplate from "./templates/image-card.hbs";
 import * as basicLightbox from 'basiclightbox';
+import { alert, error, defaultModules } from '@pnotify/core/dist/PNotify.js';
+import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+defaultModules.set(PNotifyMobile, {});
 
 
-// const searchForm = document.querySelector('.search-form');
-// const imagesContainer = document.querySelector('.gallery');
-// const searchBtn = document.querySelector('.search-btn');
-// const loadMoreBtn = document.querySelector('.load-more-btn');
-// const spinner = document.querySelector('.spinner');
-// const loadSpan = document.querySelector('.load')
-
+const API_KEY = '23351611-7864196d6829752dad19e3759';
+const BASE_URL = 'https://pixabay.com/api/';
 const newsApiService = new NewsApiService();
 // const markup = imageCardsTemplate(newsApiService.fetchImages());
 // console.log(markup)
 
+
 searchForm.addEventListener('submit', onSearch);
-
+imagesContainer.addEventListener('click', onImagesContainerClick);
 // loadMoreBtn.addEventListener('click', onLoadMore);
-imagesContainer.addEventListener('click', onImagesContainerClick)
 
-const API_KEY = '23351611-7864196d6829752dad19e3759';
-const BASE_URL = 'https://pixabay.com/api/';
 
 function onSearch(e) {
     e.preventDefault();
     clearImagesContainer();
-    disable();
-    // spinner.classList.remove('visually-hidden');
-    // loadSpan.classList.add('visually-hidden');
-
     newsApiService.searchQuery = e.currentTarget.elements.query.value;
     
-    if (newsApiService.query === '') {
-        return alert("?")
-    }
+    if (newsApiService.query === '' || newsApiService.query === ' ') {
+        return alert({text: 'Type in a search word'})
+    } else {
+     disableButton();   
     newsApiService.resetPage();
-
     newsApiService.fetchImages().then(appendImagesMarkup)
         .then(applyIntersectionObserver)
-        .then(enable)
-    // loadSpan.classList.remove('visually-hidden');
-    // spinner.classList.add('visually-hidden');
+            .then(enableButton)
+    }
 }
 
 // function onLoadMore() {
@@ -52,26 +45,21 @@ function onSearch(e) {
 
 function appendImagesMarkup(hits) {
     imagesContainer.insertAdjacentHTML('beforeend', imageCardsTemplate(hits));
-    // loadSpan.classList.remove('visually-hidden');
-    // spinner.classList.add('visually-hidden');
 }
-
-
 
 function onImagesContainerClick(e) {
     if (!e.target.classList.contains('card-image')) {
         return
     }
     console.log(e.target)
-    const imgUrl = e.target.getAttribute('src')
-    console.log(imgUrl)
+    const imgUrl = e.target.getAttribute('src');
 
     const lightbox = basicLightbox.create(`
    <div class="lightbox"><img src="${imgUrl}"></img>
    </div> 
 `
 )
-lightbox.show()
+    lightbox.show();
 // lightbox.close()
  }
 
@@ -79,13 +67,13 @@ function clearImagesContainer() {
     imagesContainer.innerHTML = '';
 }
 
-function disable() {
+function disableButton() {
     searchBtn.disabled = true;
-    loadSpan.textContent = 'Loading...';
+    loadSpan.textContent = 'Loading';
     spinner.classList.remove('visually-hidden');
 }
 
-function enable() {
+function enableButton() {
     searchBtn.disabled = false;
     loadSpan.textContent = ' Load ';
     spinner.classList.add('visually-hidden');
