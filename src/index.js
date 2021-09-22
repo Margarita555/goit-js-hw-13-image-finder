@@ -10,17 +10,15 @@ import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 
 
-const API_KEY = '23351611-7864196d6829752dad19e3759';
-const BASE_URL = 'https://pixabay.com/api/';
 const newsApiService = new NewsApiService();
 
 
 searchForm.addEventListener('submit', onSearch);
 imagesContainer.addEventListener('click', onImagesContainerClick);
-loadMoreBtn.addEventListener('click', onLoadMore);
+loadMoreBtn.addEventListener('click', fetchAndAppendImages);
 
 
-async function onSearch(e) {
+ function onSearch(e) {
     e.preventDefault();
     clearImagesContainer();
     newsApiService.searchQuery = e.currentTarget.elements.query.value;
@@ -28,8 +26,17 @@ async function onSearch(e) {
     if (newsApiService.query === '' || newsApiService.query === ' ') {
         return alert({text: 'Type in a search word'})
     } else {
-        disableButton();   
+        disableButton();
+        
         newsApiService.resetPage();
+
+        fetchAndAppendImages()
+  
+        enableButton();
+    }
+}
+
+async function fetchAndAppendImages() {
     try {
         const fetchedImages = await newsApiService.fetchImages();
         appendImagesMarkup(fetchedImages);
@@ -37,16 +44,8 @@ async function onSearch(e) {
     } catch (e) {
         error({ text: 'Try again later' })
     }
-        // applyIntersectionObserver();
-        enableButton();
-    }
 }
 
-
-function onLoadMore() {
-    newsApiService.fetchImages()
-    .then(appendImagesMarkup)
-}
 
 function appendImagesMarkup(hits) {
     imagesContainer.insertAdjacentHTML('beforeend', imageCardsTemplate(hits));
@@ -56,7 +55,6 @@ function onImagesContainerClick(e) {
     if (!e.target.classList.contains('card-image')) {
         return
     }
-    console.log(e.target)
     const imgUrl = e.target.getAttribute('src');
 
     const lightbox = basicLightbox.create(`
@@ -65,7 +63,7 @@ function onImagesContainerClick(e) {
 `
 )
     lightbox.show();
-// lightbox.close()
+    // lightbox.close()
  }
 
 function clearImagesContainer() {
