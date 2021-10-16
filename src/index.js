@@ -42,7 +42,7 @@ async function fetchAndAppendImages() {
         appendImagesMarkup(fetchedImages);
         
     } catch (e) {
-        error({ text: 'Try again later' })
+        error({ text: 'Enter the correct word, please' })
     }
 }
 
@@ -82,6 +82,8 @@ function enableButton() {
     spinner.classList.add('visually-hidden');
 }
 
+
+// ===============ADDITIONAL TASK: SCROLL =======================================
 // const applyIntersectionObserver = () => {
 //     const options = {
 //         root: null,
@@ -105,9 +107,6 @@ function enableButton() {
 //         observer.observe(i)
 //     })
 // }
-
-
-
 
 // ================================================================================
 // function onSearch(e) {

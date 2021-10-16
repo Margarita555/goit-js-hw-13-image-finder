@@ -9,8 +9,12 @@ export default class NewsApiService {
     }
     fetchImages() {
     return fetch(`${BASE_URL}?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&page=${this.page}&per_page=12`)
-            .then(response => response.json())
-        .then(({hits}) => {
+        .then(response => response.json())
+        .then(({ hits }) => {
+            if (hits.length === 0) { return error  }
+            else return hits
+        })
+        .then((hits) => {
             this.incrementPage();
             return hits;
         });
